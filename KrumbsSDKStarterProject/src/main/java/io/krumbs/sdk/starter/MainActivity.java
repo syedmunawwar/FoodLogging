@@ -27,21 +27,21 @@ import io.krumbs.sdk.krumbscapture.settings.KUserPreferences;
 
 
 public class MainActivity extends AppCompatActivity {
-    private KGadgetDataTimePeriod defaultInitialTimePeriod = KGadgetDataTimePeriod.TODAY;
+    //private KGadgetDataTimePeriod defaultInitialTimePeriod = KGadgetDataTimePeriod.TODAY;
     private KDashboardFragment kDashboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        preloadMaps();
+        //preloadMaps();
 
         setContentView(R.layout.app_bar_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
-        if (savedInstanceState == null) {
-            kDashboard = buildDashboard();
-            getSupportFragmentManager().beginTransaction().replace(R.id.content, kDashboard).commit();
-        }
+        //if (savedInstanceState == null) {
+          //  kDashboard = buildDashboard();
+          //  getSupportFragmentManager().beginTransaction().replace(R.id.content, kDashboard).commit();
+        //}
         View startCaptureButton = findViewById(R.id.start_report_button);
         KrumbsSDK.setUserPreferences(
                 new KUserPreferences.KUserPreferencesBuilder().audioRecordingEnabled(true).build());
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void preloadMaps() {
+   /*** private void preloadMaps() {
         // hack to load mapsgadget faster: http://stackoverflow
         // .com/questions/26265526/what-makes-my-map-fragment-loading-slow
         runOnUiThread(new Runnable() {
@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
         // alternatively: http://stackoverflow.com/questions/26178212/first-launch-of-activity-with-google-maps-is-very-slow
 
     }
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 .timePeriod(defaultInitialTimePeriod).build();
 
     }
-
+    ***/
 
     private void startCapture() {
         int containerId = R.id.camera_container;
@@ -117,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+/***
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -141,8 +142,10 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+ @Override
+   public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -169,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-
+***/
     //    http://stackoverflow.com/questions/7469082/getting-exception-illegalstateexception-can-not-perform-this-action-after-onsa
     @Override
     protected void onSaveInstanceState(Bundle outState) {
