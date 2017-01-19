@@ -7,13 +7,22 @@ package io.krumbs.sdk.starter;
 
 import com.google.android.gms.maps.MapView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.Map;
 
@@ -26,23 +35,46 @@ import io.krumbs.sdk.krumbscapture.KCaptureCompleteListener;
 import io.krumbs.sdk.krumbscapture.settings.KUserPreferences;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseAvtivity {
     //private KGadgetDataTimePeriod defaultInitialTimePeriod = KGadgetDataTimePeriod.TODAY;
     private KDashboardFragment kDashboard;
-
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
+    ImageButton startCaptureButton;
+    ImageView hamburgerIV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //preloadMaps();
-
-        setContentView(R.layout.app_bar_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setContentView(R.layout.activity_main);
+        applyFont(MainActivity.this, findViewById(R.id.base_layout));
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+        CheckEnableGPS();
         //if (savedInstanceState == null) {
           //  kDashboard = buildDashboard();
           //  getSupportFragmentManager().beginTransaction().replace(R.id.content, kDashboard).commit();
         //}
-        View startCaptureButton = findViewById(R.id.start_report_button);
+
+        startCaptureButton = (ImageButton)findViewById(R.id.start_report_button);
+        hamburgerIV = (ImageView)findViewById(R.id.hamburger);
+        drawerLayout = (DrawerLayout)findViewById(R.id.base_layout);
+        navigationView  = (NavigationView)findViewById(R.id.navigation_drawer);
+
+
+        hamburgerIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                }
+                else{
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
+            }
+        });
+
         KrumbsSDK.setUserPreferences(
                 new KUserPreferences.KUserPreferencesBuilder().audioRecordingEnabled(true).build());
         if (startCaptureButton != null) {
@@ -53,39 +85,41 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-    }
 
-   /*** private void preloadMaps() {
-        // hack to load mapsgadget faster: http://stackoverflow
-        // .com/questions/26265526/what-makes-my-map-fragment-loading-slow
-        runOnUiThread(new Runnable() {
+        View view = navigationView.getHeaderView(0);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void run() {
-                try {
-                    MapView mv = new MapView(getApplicationContext());
-                    mv.onCreate(null);
-                    mv.onPause();
-                    mv.onDestroy();
-                } catch (Exception ignored){
-                    Log.e("KRUMBS-ERROR", "error while init maps/ google play serv");
+            public boolean onNavigationItemSelected(MenuItem item) {
+
+                switch (item.getItemId()){
+                    case R.id.aboutus:
+                        Toast.makeText(MainActivity.this,"Clicked",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
                 }
+
+                return true;
             }
         });
 
-        // alternatively: http://stackoverflow.com/questions/26178212/first-launch-of-activity-with-google-maps-is-very-slow
 
     }
 
-    private KDashboardFragment buildDashboard() {
-        return new KDashboardFragment.KDashboardBuilder()
-                .addGadget(KGadgetType.REPORTS)
-                .addGadget(KGadgetType.PEOPLE)
-                .addGadget(KGadgetType.TOP_INTENTS)
-                .addGadget(KGadgetType.TOP_PLACES)
-                .timePeriod(defaultInitialTimePeriod).build();
+    private void CheckEnableGPS() {
+        String provider = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.LOCATION_PROVIDERS_ALLOWED );
+        if(!provider.equals("")){
+            //GPS Enabled
 
+        }else{
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            Toast.makeText(MainActivity.this, "Location is not enable",
+                    Toast.LENGTH_LONG).show();
+            startActivity(intent);
+        }
     }
-    ***/
+
 
     private void startCapture() {
         int containerId = R.id.camera_container;
@@ -118,61 +152,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-/***
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        switch (defaultInitialTimePeriod) {
-            case TODAY:
-                menu.findItem(R.id.last_day).setChecked(true);
-                break;
-            case LAST_24_HOURS:
-                menu.findItem(R.id.last_24h).setChecked(true);
-                break;
-            case LAST_30_DAYS:
-                menu.findItem(R.id.last_month).setChecked(true);
-                break;
-            case LAST_12_MONTHS:
-                menu.findItem(R.id.last_year).setChecked(true);
-                break;
-            default:
-                break;
-        }
-        return true;
-    }
 
-
-
- @Override
-   public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        item.setChecked(true);
-        switch (item.getItemId()) {
-            case R.id.last_day:
-                defaultInitialTimePeriod = KGadgetDataTimePeriod.TODAY;
-                break;
-            case R.id.last_24h:
-                defaultInitialTimePeriod = KGadgetDataTimePeriod.LAST_24_HOURS;
-                break;
-            case R.id.last_month:
-                defaultInitialTimePeriod = KGadgetDataTimePeriod.LAST_30_DAYS;
-                break;
-            case R.id.last_year:
-                defaultInitialTimePeriod = KGadgetDataTimePeriod.LAST_12_MONTHS;
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        //send notification to the SDK to update the Dashboard
-        if (kDashboard != null) {
-            kDashboard.refreshDashboard(defaultInitialTimePeriod);
-        }
-        return true;
-    }
-***/
     //    http://stackoverflow.com/questions/7469082/getting-exception-illegalstateexception-can-not-perform-this-action-after-onsa
     @Override
     protected void onSaveInstanceState(Bundle outState) {

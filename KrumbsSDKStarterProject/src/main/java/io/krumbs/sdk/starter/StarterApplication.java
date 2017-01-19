@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.URL;
@@ -49,6 +50,7 @@ public class StarterApplication extends Application {
                         if (mediaUploadStatus == KMediaUploadListener.MediaUploadStatus.UPLOAD_SUCCESS) {
                             if (mediaType != null && mediaUrl != null) {
                                 Log.i("KRUMBS Media, Type: ", mediaType + ": ID:" + id + ", URL:" + mediaUrl);
+                                Toast.makeText(StarterApplication.this,mediaUploadStatus.toString(), Toast.LENGTH_LONG).show();
                             }
                         }
                     }
