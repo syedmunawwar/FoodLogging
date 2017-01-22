@@ -1,1 +1,1 @@
-{  "Health": {    "index": 1,    "intents_file": "health.json"  },  "Water": {    "index": 2,    "intents_file": "water.json"  },  "Fix": {    "index": 3,    "intents_file": "fix.json"  }}
+{  "BreakFast": {    "index": 1,    "intents_file": "BreakFast.json"  },  "Lunch": {    "index": 2,    "intents_file": "Lunch.json"  },  "Dinner": {    "index": 3,    "intents_file": "Dinner.json"  },  "Others": {    "index": 3,    "intents_file": "Others.json"  }}
