@@ -3,9 +3,7 @@
  * All rights reserved.
  *
  */
-package io.krumbs.sdk.starter;
-
-import com.google.android.gms.maps.MapView;
+package io.krumbs.sdk.starter.Activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,11 +11,8 @@ import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -28,14 +23,14 @@ import java.util.Map;
 
 import io.krumbs.sdk.KrumbsSDK;
 import io.krumbs.sdk.dashboard.KDashboardFragment;
-import io.krumbs.sdk.dashboard.KGadgetDataTimePeriod;
-import io.krumbs.sdk.dashboard.KGadgetType;
 import io.krumbs.sdk.data.model.Event;
 import io.krumbs.sdk.krumbscapture.KCaptureCompleteListener;
 import io.krumbs.sdk.krumbscapture.settings.KUserPreferences;
+import io.krumbs.sdk.starter.Preferences.LoginPreferences;
+import io.krumbs.sdk.starter.R;
 
 
-public class MainActivity extends BaseAvtivity {
+public class MainActivity extends BaseActivity {
     //private KGadgetDataTimePeriod defaultInitialTimePeriod = KGadgetDataTimePeriod.TODAY;
     private KDashboardFragment kDashboard;
     DrawerLayout drawerLayout;
@@ -43,6 +38,7 @@ public class MainActivity extends BaseAvtivity {
     Toolbar toolbar;
     ImageButton startCaptureButton;
     ImageView hamburgerIV;
+    private LoginPreferences loginPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +48,8 @@ public class MainActivity extends BaseAvtivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         CheckEnableGPS();
+        loginPreferences = new LoginPreferences(MainActivity.this);
+
         //if (savedInstanceState == null) {
           //  kDashboard = buildDashboard();
           //  getSupportFragmentManager().beginTransaction().replace(R.id.content, kDashboard).commit();
@@ -97,6 +95,21 @@ public class MainActivity extends BaseAvtivity {
                         Toast.makeText(MainActivity.this,"Clicked",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
+                    case R.id.Logout:
+                        loginPreferences.logoutUser();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        Intent i = new Intent(getApplicationContext(),
+                                LoginActivity.class);
+                        startActivity(i);
+                        finish();
+                        break;
+                    case R.id.preference:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        Intent j = new Intent(getApplicationContext(),
+                                PreferencesActivity.class);
+                        startActivity(j);
+                        break;
+
                 }
 
                 return true;

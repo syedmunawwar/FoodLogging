@@ -3,4 +3,9 @@
     
     <color name="cam">#24C4A3</color>
     <color name="grey">#607D8B</color>
+    <color name="login">#c5d5cb</color>
+    <color name="colorLoginView">#9fa8a3</color>
+    <color name="colorLoginText">#000000</color>
+    <color name="colorLoginHint">#3b3a36</color>
+    <color name="button_color">#e3e0cf</color>
 </resources>

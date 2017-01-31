@@ -1,4 +1,4 @@
-package io.krumbs.sdk.starter;
+package io.krumbs.sdk.starter.Activitys;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -9,10 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import io.krumbs.sdk.starter.R;
+
 /**
- * Created by SYED on 19-01-2017.
+ * Created by SYED on 24-01-2017.
  */
-public class BaseAvtivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

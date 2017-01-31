@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/base_layout"
-    tools:context="io.krumbs.sdk.starter.MainActivity">
+    tools:context=".Activitys.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
