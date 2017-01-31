@@ -54,6 +54,7 @@ public class MainActivity extends BaseActivity {
           //  kDashboard = buildDashboard();
           //  getSupportFragmentManager().beginTransaction().replace(R.id.content, kDashboard).commit();
         //}
+        //this is the test
 
         startCaptureButton = (ImageButton)findViewById(R.id.start_report_button);
         hamburgerIV = (ImageView)findViewById(R.id.hamburger);
