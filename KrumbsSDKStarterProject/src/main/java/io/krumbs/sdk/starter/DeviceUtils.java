@@ -40,7 +40,7 @@ public class DeviceUtils {
 
     /**
      * Returns the user name of primary google account.
-     *
+     *git
      * @return
      */
     public static String getPrimaryUserID(Context context) {
